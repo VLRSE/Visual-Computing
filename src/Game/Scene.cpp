@@ -19,6 +19,7 @@ bool Scene::init()
 		m_shader = m_assets.getShaderProgram("shader");
         m_shader->use();
 
+		//2D + Farbe (xyrgb)
         float vertices[] = {-0.5, -0.5, 0.0, 0.0, 1.0,
                             0.5, -0.5, 0.0, 0.0, 1.0,
                             0.5, 0.5, 0.0, 1.0, 0.0,
@@ -31,9 +32,17 @@ bool Scene::init()
 
 		/*
 		 * ************
-		 * Place your code here!
+		 * 1.1 Szene Initialisierung
 		 * ************
 		 */
+
+		//VBO Erzeugen
+		GLuint vaoID, vboID;
+
+		//a.) and activate VBO and upload data
+		glGenVertexArrays(1, &vaoID);
+		glBindBuffer(GL_ARRAY_BUFFER, vaoID);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices, GL_STATIC_DRAW);
 
 
         std::cout << "Scene initialization done\n";
