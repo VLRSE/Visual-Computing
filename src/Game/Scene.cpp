@@ -39,10 +39,14 @@ bool Scene::init()
 		//VBO Erzeugen
 		GLuint vaoID, vboID;
 
-		//a.) and activate VBO and upload data
+		//a.)VBO erzeugen, activate  and upload data
 		glGenVertexArrays(1, &vaoID);
 		glBindBuffer(GL_ARRAY_BUFFER, vaoID);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices, GL_STATIC_DRAW)
+
+		//b.) VAO erzeugen and binden
+		glGenVertexArrays( 1, &vaoID);
+		glBindVertexArray( vaoID);
 
 
         std::cout << "Scene initialization done\n";
