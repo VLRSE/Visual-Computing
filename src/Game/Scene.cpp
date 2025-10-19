@@ -53,6 +53,7 @@ bool Scene::init()
 
 		//c.)Vertex-Attribute definieren und binden
 		//describe VBO in the VAO
+		//ssize ist Anzahl der "Koordinaten" pro Vertex
 		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)(2 * sizeof(float)));
