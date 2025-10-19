@@ -39,10 +39,31 @@ bool Scene::init()
 		//VBO Erzeugen
 		GLuint vaoID, vboID;
 
-		//a.) and activate VBO and upload data
+		//a.)VBO erzeugen, activate  and upload data
+		//ID erzeugen
 		glGenVertexArrays(1, &vaoID);
+		//Aktivsetzen des entsprechenden Memory Buffers
 		glBindBuffer(GL_ARRAY_BUFFER, vaoID);
+		//Hochladen der Daten
 		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices, GL_STATIC_DRAW);
+
+		//b.) VAO erzeugen and binden/aktivieren
+		glGenVertexArrays( 1, &vaoID);
+		glBindVertexArray( vaoID);
+
+		//c.)Vertex-Attribute definieren und binden
+		//describe VBO in the VAO
+		//ssize ist Anzahl der "Koordinaten" pro Vertex
+		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)(2 * sizeof(float)));
+		glEnableVertexAttribArray(1);
+
+		//d.)Indexbuffers erstellen und binden.
+		GLuint iboID;
+		glGenBuffers(1, &iboID);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboID);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), &indices, GL_STATIC_DRAW);
 
 
         std::cout << "Scene initialization done\n";
