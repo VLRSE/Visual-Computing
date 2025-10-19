@@ -41,9 +41,9 @@ bool Scene::init()
 
 		//a.)VBO erzeugen, activate  and upload data
 		//ID erzeugen
-		glGenVertexArrays(1, &vaoID);
+		glGenBuffers(1, &vboID);
 		//Aktivsetzen des entsprechenden Memory Buffers
-		glBindBuffer(GL_ARRAY_BUFFER, vaoID);
+		glBindBuffer(GL_ARRAY_BUFFER, vboID);
 		//Hochladen der Daten
 		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices, GL_STATIC_DRAW);
 
@@ -53,17 +53,18 @@ bool Scene::init()
 
 		//c.)Vertex-Attribute definieren und binden
 		//describe VBO in the VAO
-		//ssize ist Anzahl der "Koordinaten" pro Vertex
-		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
+		//SIZE: ist Anzahl der "Koordinaten" pro Vertex
+		//STRIDE: Abstand zwischen Vertices
+		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
 		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)(2 * sizeof(float)));
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(2 * sizeof(float)));
 		glEnableVertexAttribArray(1);
 
 		//d.)Indexbuffers erstellen und binden.
 		GLuint iboID;
 		glGenBuffers(1, &iboID);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboID);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), &indices, GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
 
         std::cout << "Scene initialization done\n";
@@ -80,9 +81,24 @@ void Scene::render(float dt)
 
     /*
     * ************
-    * Place your code here!
+    *	1.2 Scene-render()
+    *	ALle Objekte, die dargestellt werden sollen,
+    *	müssen hier in die Rendering-Pipeline integriert werden.
     * ************
     */
+
+	//a. VAO Binden.
+	glBindVertexArray( vaoID);
+
+	//b.Elemente Zeichen (render call)
+	//COUNT: jedes Dreieck hat 3 Indizes
+	glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);
+
+	//c. Optionales Lösen der Bindung, um versehentliche Änderungen am VAO zu vermeiden
+	glBindVertexArray(0);
+
+
+
 
 
 
