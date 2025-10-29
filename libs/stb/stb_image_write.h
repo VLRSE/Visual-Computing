@@ -207,6 +207,12 @@ STBIWDEF void stbi_flip_vertically_on_write(int flip_boolean);
 #include <string.h>
 #include <math.h>
 
+// Compatibility fix for Linux and MacOS (Visual Studio functions)
+#ifndef _MSC_VER
+#define fopen_s(pFile,filename,mode) (*pFile=fopen(filename,mode)) == NULL
+#define sprintf_s(buffer, ...) sprintf(buffer, __VA_ARGS__)
+#endif
+
 #if defined(STBIW_MALLOC) && defined(STBIW_FREE) && (defined(STBIW_REALLOC) || defined(STBIW_REALLOC_SIZED))
 // ok
 #elif !defined(STBIW_MALLOC) && !defined(STBIW_FREE) && !defined(STBIW_REALLOC) && !defined(STBIW_REALLOC_SIZED)
