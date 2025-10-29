@@ -1,6 +1,6 @@
 #version 330 core
 
-in vec4 colorVS;
+in vec3 colorVS;
 
 //fragment shader output
 out vec4 color;
@@ -8,7 +8,7 @@ out vec4 color;
 
 void main(){
 
-    color = colorVS;
+    color = vec4(colorVS.x, colorVS.y, colorVS.z, 1.0);
 
 }
 
