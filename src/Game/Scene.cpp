@@ -19,7 +19,7 @@ bool Scene::init()
 		m_shader = m_assets.getShaderProgram("shader");
         m_shader->use();
 
-			//2D + Farbe (xyrgb)
+			//3D + Farbe (xyzrgb)
         float vertices[] = {
         	//----------V----------
 
@@ -36,19 +36,22 @@ bool Scene::init()
 
         	//----------D----------
         		0.7, 0.8, 0.2, 0.2, 0.2, 1.0, //  right top //9
-				0.1, 0.8, 0.2, 0.0, 0.0, 1.0, // left top //10
+				0.1, 0.8, 0.5, 0.0, 0.0, 0.5, // left top //10
 				0.4, 0.6, 0.1, 0.3f, 0., 0.8, // right top //11
-				0.1, -0.8, 0.1, 0.3, 0.0, 0.9, // left bottom //12
-				0.4, -0.6, 0.1, 0.8, 0.0, 1.0, // mid center lower, //13
-				0.8, -0.8, 0.1, 0.5, 0.0, 1.0, // right bottom  //14
+				0.1, -0.8, 0.5, 0.0, 0.0, 0.5, // left bottom //12
+				0.4, -0.6, 0.1, 0.2, 0.0, 0.5, // mid center lower, //13
+				0.8, -0.8, 0.1, 0.1, 0.0, 0.5, // right bottom  //14
 				0.9, -0.5, 0.1,  0.1, 0.0, 0.0, //15
 				0.6,  -0.4, 0.5,  0.8, 0.0, 1.0, //16
-				0.9, 0.5, 0.1,  0.5, 0.0, 0.1,  //17
+				0.9, 0.5, 0.1,  0.5, 0.0, 0.5,  //17
         		0.6, 0.4, 0.1,  0.5, 0.0, 1.0,  //18
 
         	//----------D Shadow----------
-        	0.1, 0.4, 0.8,  0.8, 0.0, 1.0,  //19
-        	0.1, -1.0, 0.1, 0.8, 0.0, 1.0, //20
+        /*	-0.1, 0.4, 0.1,  0.0, 0.0, 0.3,  //19
+        	-0.1, -1.0, 0.1, 0.0, 0.0, 0.3, //20
+        	0.6, -1.0, 0.1, 0.0, 0.0, 0.3, //21
+
+        	*/
 
 
 
@@ -68,6 +71,7 @@ bool Scene::init()
 
 
 
+
         	// D
         	9, 10, 11,
         	11, 10, 12,
@@ -81,14 +85,10 @@ bool Scene::init()
         	9, 18, 17,
 
         	//D Shadow
-        	10, 19, 12,
+        	/*10, 19, 12,
         	19, 20, 12,
-
-
-
-
-
-
+        	12, 20, 14,
+        	14, 20,21,*/
 
         };
 
@@ -106,11 +106,13 @@ bool Scene::init()
 		//ID erzeugen
 		glGenBuffers(1, &vboID);
 		//Aktivsetzen des entsprechenden Memory Buffers
+		//GL_ARRAY_BUFFER - mit den eigentlichen Geometrie-Daten
 		glBindBuffer(GL_ARRAY_BUFFER, vboID);
-		//Hochladen der Daten
+		//Hochladen der Daten auf die GPU
 		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices, GL_STATIC_DRAW);
 
 		//b.) VAO erzeugen and binden/aktivieren
+		//Für jedes zu rendernde Obkjekt wird ein VAO erzeugt
 		glGenVertexArrays( 1, &vaoID);
 		glBindVertexArray( vaoID);
 
@@ -118,6 +120,8 @@ bool Scene::init()
 		//describe VBO in the VAO
 		//SIZE: ist Anzahl der "Koordinaten" pro Vertex
 		//STRIDE: Abstand zwischen Vertices
+
+		//Configure the Vertex Attribute so that OpenGL know how to read the VBO
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
@@ -159,15 +163,10 @@ void Scene::render(float dt)
 
 	//b.Elemente Zeichen (render call)
 	//COUNT: jedes Dreieck hat 3 Indizes
-	glDrawElements(GL_TRIANGLES, 63 , GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, 51 , GL_UNSIGNED_INT, 0);
 
 	//c. Optionales Lösen der Bindung, um versehentliche Änderungen am VAO zu vermeiden
 	glBindVertexArray(0);
-
-
-
-
-
 
 }
 
