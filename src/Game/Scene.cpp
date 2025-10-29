@@ -37,6 +37,8 @@ bool Scene::init()
         };
 
 
+
+
 		/*
 		 * ************
 		 * 1.1 Szene Initialisierung
@@ -46,6 +48,8 @@ bool Scene::init()
 		//VBO Erzeugen
 		GLuint vaoID, vboID;
 
+
+		transform();
 		//a.)VBO erzeugen, activate  and upload data
 		//ID erzeugen
 		glGenBuffers(1, &vboID);
@@ -53,7 +57,7 @@ bool Scene::init()
 		//GL_ARRAY_BUFFER - mit den eigentlichen Geometrie-Daten
 		glBindBuffer(GL_ARRAY_BUFFER, vboID);
 		//Hochladen der Daten auf die GPU
-		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVert), &cubeVert, GL_STATIC_DRAW);
 
 		//b.) VAO erzeugen and binden/aktivieren
 		//Für jedes zu rendernde Obkjekt wird ein VAO erzeugt
@@ -75,7 +79,7 @@ bool Scene::init()
 		GLuint iboID;
 		glGenBuffers(1, &iboID);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboID);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(cubeInd), cubeInd, GL_STATIC_DRAW);
 
 
 		glEnable(GL_CULL_FACE);
@@ -107,12 +111,13 @@ void Scene::render(float dt)
 
 	//b.Elemente Zeichen (render call)
 	//COUNT: jedes Dreieck hat 3 Indizes
-	glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 
 	//c. Optionales Lösen der Bindung, um versehentliche Änderungen am VAO zu vermeiden
 	glBindVertexArray(0);
 
 }
+
 
 void Scene::update(float dt)
 {
@@ -122,6 +127,11 @@ void Scene::update(float dt)
 OpenGLWindow * Scene::getWindow()
 {
 	return m_window;
+}
+
+void Scene::transform()
+{
+	auto cubePosition = glm::vec3(0.0f, 0.0f, 0.0f);
 }
 
 void Scene::onKey(Key key, Action action, Modifier modifier)
