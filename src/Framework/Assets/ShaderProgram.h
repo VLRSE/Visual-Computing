@@ -13,6 +13,7 @@ public:
 	ShaderProgram& operator=(const ShaderProgram& other) = delete;
 	ShaderProgram(ShaderProgram&& other);
 	ShaderProgram& operator=(ShaderProgram&& other);
+	//unsigned int getID() const;
 	~ShaderProgram();
 	void use();
 	GLuint prog;
@@ -53,6 +54,7 @@ public:
 	bool setUniform(const std::string& name, const glm::mat4& value, bool transpose);
 
 private:
+	//unsigned int m_programID;
 	GLint getUniformLocation(const char* name)
 	{
 		if (!prog)
