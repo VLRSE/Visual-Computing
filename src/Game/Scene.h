@@ -5,6 +5,7 @@
 #include <memory>
 #include <AssetManager.h>
 #include "Transform.h"
+#include "Cube.h"
 
 class Scene
 {
@@ -17,6 +18,7 @@ public:
 	void render(float dt);
 	void update(float dt);
 	OpenGLWindow* getWindow();
+	void transform();
 
 	void onKey(Key key, Action action, Modifier modifier);
 	void onMouseMove(MousePosition mouseposition);
@@ -28,7 +30,9 @@ private:
 	OpenGLWindow* m_window;
 	AssetManager m_assets;
     ShaderProgram* m_shader;
-    GLuint vaoID, vboID;
+    GLuint vaoID, vboID, iboID;
+
+	Transform cubeTrans;
 
 };
 
