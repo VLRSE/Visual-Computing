@@ -32,7 +32,7 @@ private:
     ShaderProgram* m_shader;
     GLuint vaoID, vboID, iboID;
 
-	Transform* cubeTrans;
+	Transform cubeTrans;
 
 };
 
