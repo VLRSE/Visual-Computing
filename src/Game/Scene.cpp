@@ -30,7 +30,7 @@ bool Scene::init()
 
 
 
-		transform();
+	//	transform();
 		//a.)VBO erzeugen, activate  and upload data
 		//ID erzeugen
 		glGenBuffers(1, &vboID);
@@ -90,8 +90,12 @@ void Scene::render(float dt)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //Reset Buffers before drawing
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f); //background color black
 
+	//continuous rotation
+	//Rotation um 45 Grad Y-Achse und 30 Graf auf X-Achse
+	cubeTrans.rotate(glm::vec3(0.2f * dt, glm::radians(45.0f) * dt  , 0.0f));
+
 	//Schick model matrix zu shader
-	m_shader->setUniform("model", cubeTrans->getMatrix(),false);
+	m_shader->setUniform("model", cubeTrans.getMatrix(),false);
 
 	//a. VAO Binden.
 	glBindVertexArray( vaoID);
@@ -122,11 +126,7 @@ void Scene::transform()
 {
 	auto cubePosition = glm::vec3(0.0f, 0.0f, -0.3f);
 
-	//Einheits Matrix für die Rotation 2 Achsen
-	cubeTrans = new Transform();
 
-	//Rotation um 45 Grad Y-Achse und 30 Graf auf X-Achse
-	cubeTrans->rotate(glm::vec3(0.5f, glm::radians(45.0f) , 0.0f));
 }
 
 void Scene::onKey(Key key, Action action, Modifier modifier)
