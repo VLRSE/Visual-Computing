@@ -30,7 +30,9 @@ private:
 	OpenGLWindow* m_window;
 	AssetManager m_assets;
     ShaderProgram* m_shader;
-    GLuint vaoID, vboID;
+    GLuint vaoID, vboID, iboID;
+
+	Transform* cubeTrans;
 
 };
 
