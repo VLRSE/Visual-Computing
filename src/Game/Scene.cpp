@@ -30,7 +30,8 @@ bool Scene::init()
 
 
 
-	//	transform();
+		transform();
+
 		//a.)VBO erzeugen, activate  and upload data
 		//ID erzeugen
 		glGenBuffers(1, &vboID);
@@ -92,17 +93,20 @@ void Scene::render(float dt)
 
 	//continuous rotation
 	//Rotation um 45 Grad Y-Achse und 30 Graf auf X-Achse
-	cubeTrans.rotate(glm::vec3(0.2f * dt, glm::radians(45.0f) * dt  , 0.0f));
+	rumpf.rotate(glm::vec3(0.2f * dt, glm::radians(45.0f) * dt  , 0.0f));
 
-	//Schick model matrix zu shader
-	m_shader->setUniform("model", cubeTrans.getMatrix(),false);
+
+
+
 
 	//a. VAO Binden.
 	glBindVertexArray( vaoID);
 
-	//b.Elemente Zeichen (render call)
-	//COUNT: jedes Dreieck hat 3 Indizes
-	glDrawElements(GL_TRIANGLES, sizeof(cubeInd)/sizeof(float), GL_UNSIGNED_INT, 0);
+
+	renderPart(rumpf, glm::mat4(1.0f));
+
+
+
 
 
 
@@ -124,7 +128,11 @@ OpenGLWindow * Scene::getWindow()
 
 void Scene::transform()
 {
-	auto cubePosition = glm::vec3(0.0f, 0.0f, -0.3f);
+	auto rumpfPosition = glm::vec3(0.0f, 0.0f, -0.3f);
+	rumpf = Transform ();
+
+
+
 
 
 }
@@ -153,6 +161,19 @@ void Scene::onFrameBufferResize(int width, int height)
 {
 
 }
+
+void Scene::renderPart(Transform& transform, const glm::mat4 baseMatrix)
+{
+	glm::mat4 modelMatrix =  baseMatrix * transform.getMatrix();
+
+	//Schick model matrix zu shader
+	m_shader->setUniform("model", rumpf.getMatrix(),false);
+
+	//b.Elemente Zeichen (render call)
+	//COUNT: jedes Dreieck hat 3 Indizes
+	glDrawElements(GL_TRIANGLES, sizeof(cubeInd)/sizeof(float), GL_UNSIGNED_INT, 0);
+}
+
 void Scene::shutdown()
 {
 
