@@ -26,13 +26,15 @@ public:
 	void onMouseScroll(double xscroll, double yscroll);
 	void onFrameBufferResize(int width, int height);
 
+	void renderPart( Transform& transform, const glm::mat4 modelMatrix);
+
 private:
 	OpenGLWindow* m_window;
 	AssetManager m_assets;
     ShaderProgram* m_shader;
     GLuint vaoID, vboID, iboID;
 
-	Transform cubeTrans;
+	Transform rumpf;
 
 };
 
