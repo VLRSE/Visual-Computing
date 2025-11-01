@@ -32,7 +32,7 @@ private:
     ShaderProgram* m_shader;
     GLuint vaoID, vboID, iboID;
 
-	Transform cubeTrans;
+	Transform rumpf, kopf,linkeArmGruppe, linkeObererArm, linkeUntererArm,rechteArmGruppe, rechteObererArm,  rechteUntererArm, linkesBein, rechtesBein;
 
 };
 
