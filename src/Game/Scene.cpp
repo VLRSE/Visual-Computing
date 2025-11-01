@@ -108,8 +108,9 @@ void Scene::render(float dt)
 
 	//b.Elemente Zeichen (render call)
 	//COUNT: jedes Dreieck hat 3 Indizes
-	glDrawElements(GL_TRIANGLES, sizeof(cubeInd)/sizeof(float), GL_UNSIGNED_INT, 0);
 
+
+	transformBodyPart(kopf, rumpf.getMatrix());
 
 
 	//c. Optionales Lösen der Bindung, um versehentliche Änderungen am VAO zu vermeiden
