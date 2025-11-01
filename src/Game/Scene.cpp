@@ -30,7 +30,8 @@ bool Scene::init()
 
 
 
-	//	transform();
+		transform();
+
 		//a.)VBO erzeugen, activate  and upload data
 		//ID erzeugen
 		glGenBuffers(1, &vboID);
@@ -92,13 +93,14 @@ void Scene::render(float dt)
 
 	//continuous rotation
 	//Rotation um 45 Grad Y-Achse und 30 Graf auf X-Achse
-	cubeTrans.rotate(glm::vec3(0.2f * dt, glm::radians(45.0f) * dt  , 0.0f));
+	rumpf.rotate(glm::vec3(0.2f * dt, glm::radians(60.0f) * dt  , 0.0f));
+
+	//a. VAO Binden.
+	glBindVertexArray( vaoID);
 
 	//Schick model matrix zu shader
 	m_shader->setUniform("model", cubeTrans.getMatrix(),false);
 
-	//a. VAO Binden.
-	glBindVertexArray( vaoID);
 
 	//b.Elemente Zeichen (render call)
 	//COUNT: jedes Dreieck hat 3 Indizes
@@ -124,7 +126,22 @@ OpenGLWindow * Scene::getWindow()
 
 void Scene::transform()
 {
-	auto cubePosition = glm::vec3(0.0f, 0.0f, -0.3f);
+	//Torso erstellen
+	auto torsoPosition = glm::vec3(0.0f, 0.0f, 0.0f);
+	rumpf = Transform();
+	rumpf.translate(torsoPosition);
+	rumpf.scale(glm::vec3(0.5f, 0.8f, 0.2f));
+
+	//torso.rotate(glm::vec3(glm::radians(20.0f), glm::radians(20.0f)   , 0.0f));
+
+	//Kopf erstelle
+	kopf = Transform();
+	kopf.translate( glm::vec3(0.0f, 0.7f, 0.0f));
+	kopf.scale(glm::vec3(0.4f, 0.2f, 1.0f));
+
+
+
+
 
 
 }
