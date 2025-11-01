@@ -68,6 +68,10 @@ bool Scene::init()
 		glFrontFace(GL_CCW);
 		glCullFace(GL_BACK);
 
+		glEnable(GL_DEPTH_TEST);
+		glDepthFunc(GL_GREATER);
+		glClearDepth(0.0);
+
         std::cout << "Scene initialization done\n";
         return true;
 	}
