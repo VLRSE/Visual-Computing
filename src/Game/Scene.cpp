@@ -102,15 +102,10 @@ void Scene::render(float dt)
 	//a. VAO Binden.
 	glBindVertexArray( vaoID);
 
-	//Schick model matrix zu shader
-	m_shader->setUniform("model", cubeTrans.getMatrix(),false);
-
-
-	//b.Elemente Zeichen (render call)
-	//COUNT: jedes Dreieck hat 3 Indizes
-
-
-	transformBodyPart(kopf, rumpf.getMatrix());
+	/****Körperteile rendern**/
+	//transformBodyPart(robotGruppe, glm::mat4(1.0f)); // Parent
+	transformBodyPart(rumpf, glm::mat4(1.0f)); // Child:Rumpf
+	transformBodyPart(kopf, rumpf.getMatrix()); //Child:Kopf
 
 
 	//c. Optionales Lösen der Bindung, um versehentliche Änderungen am VAO zu vermeiden
@@ -131,21 +126,30 @@ OpenGLWindow * Scene::getWindow()
 
 void Scene::transform()
 {
-	//Torso erstellen
+	//Robot-Gruppe (Parent Transformation - continous rotation)
 	auto torsoPosition = glm::vec3(0.0f, 0.0f, 0.0f);
-	rumpf = Transform();
-	rumpf.translate(torsoPosition);
-	rumpf.scale(glm::vec3(0.5f, 0.8f, 0.2f));
+	robotGruppe = Transform();
+	robotGruppe.translate(torsoPosition); // Ursprung
 
-	//torso.rotate(glm::vec3(glm::radians(20.0f), glm::radians(20.0f)   , 0.0f));
+	//Torso erstellen
+	rumpf = Transform();
+	rumpf.scale(glm::vec3(0.5f, 0.8f, 0.2f));
 
 	//Kopf erstelle
 	kopf = Transform();
 	kopf.translate( glm::vec3(0.0f, 0.7f, 0.0f));
 	kopf.scale(glm::vec3(0.4f, 0.2f, 1.0f));
 
+	linkeArmGruppe = Transform();
+	/*
+	linkeObererArm
+		linkeUntererArm
+		rechteArmGruppe
+		rechteObererArm
+		rechteUntererArm
+		linkesBein, rechtesBein
 
-
+*/
 
 
 
