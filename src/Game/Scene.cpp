@@ -30,7 +30,8 @@ bool Scene::init()
 
 
 
-	//	transform();
+		transform();
+
 		//a.)VBO erzeugen, activate  and upload data
 		//ID erzeugen
 		glGenBuffers(1, &vboID);
@@ -67,6 +68,10 @@ bool Scene::init()
 		glFrontFace(GL_CCW);
 		glCullFace(GL_BACK);
 
+		glEnable(GL_DEPTH_TEST);
+		glDepthFunc(GL_GREATER);
+		glClearDepth(0.0);
+
         std::cout << "Scene initialization done\n";
         return true;
 	}
@@ -92,17 +97,33 @@ void Scene::render(float dt)
 
 	//continuous rotation
 	//Rotation um 45 Grad Y-Achse und 30 Graf auf X-Achse
-	cubeTrans.rotate(glm::vec3(0.2f * dt, glm::radians(45.0f) * dt  , 0.0f));
-
-	//Schick model matrix zu shader
-	m_shader->setUniform("model", cubeTrans.getMatrix(),false);
+	rumpf.rotate(glm::vec3(0.2f * dt, glm::radians(60.0f) * dt  , 0.0f));
 
 	//a. VAO Binden.
 	glBindVertexArray( vaoID);
 
-	//b.Elemente Zeichen (render call)
-	//COUNT: jedes Dreieck hat 3 Indizes
-	glDrawElements(GL_TRIANGLES, sizeof(cubeInd)/sizeof(float), GL_UNSIGNED_INT, 0);
+	/***
+	 **Körperteile rendern
+	 ***/
+
+	//transformBodyPart(robotGruppe, glm::mat4(1.0f)); // Parent
+	transformBodyPart(rumpf, glm::mat4(1.0f)); // Child:Rumpf
+	transformBodyPart(kopf, rumpf.getMatrix()); //Child:Kopf
+
+	//linke Arme rendern
+	glm::mat4 linkerArmGruppeMatrix = rumpf.getMatrix() * linkeArmGruppe.getMatrix() * armGruppe.getMatrix()  ;
+	transformBodyPart(linkeObererArm , linkerArmGruppeMatrix);
+	transformBodyPart(linkeUntererArm ,  linkerArmGruppeMatrix);
+
+	//rechte Arme rendern
+	glm::mat4 rechterArmArmMatrix = rumpf.getMatrix() * rechteArmGruppe.getMatrix() * armGruppe.getMatrix() ;
+	transformBodyPart(rechteObererArm , rechterArmArmMatrix);
+	transformBodyPart(rechteUntererArm , rechterArmArmMatrix);
+
+	//Beine rendern
+	glm::mat4 rechtesBeinArmMatrix = rumpf.getMatrix() * beinGruppe.getMatrix() ;
+	transformBodyPart(linkesBein , rechtesBeinArmMatrix);
+	transformBodyPart(rechtesBein , rechtesBeinArmMatrix);
 
 
 
@@ -124,7 +145,85 @@ OpenGLWindow * Scene::getWindow()
 
 void Scene::transform()
 {
-	auto cubePosition = glm::vec3(0.0f, 0.0f, -0.3f);
+	/***
+	 *Robot-Gruppe (Parent Transformation - continous rotation)
+	 *Translation zur Ursprung
+	*/
+	auto rumpfPosition= glm::vec3(0.0f, 0.0f, 0.0f);
+	robotGruppe = Transform();
+	robotGruppe.translate(rumpfPosition); // Ursprung
+
+	/***
+	 *Rumpf Transformation
+	 *Skalierung vom Rumpf
+	*/
+	rumpf = Transform();
+	rumpf.scale(glm::vec3(0.5f, 0.8f, 0.2f));
+
+	/***
+	 *Kopf Transformation
+	 *Skalierung und Translation um Y-Achse
+	*/
+	kopf = Transform();
+	kopf.translate( glm::vec3(0.0f, 0.7f, 0.0f));
+	kopf.scale(glm::vec3(0.4f, 0.2f, 1.0f));
+
+	/***
+	 *Parent Transformation für die Armen
+	 *Skalierung und Translation nach oben für alle Teile der beiden Arme
+	*/
+	armGruppe = Transform();
+	armGruppe.translate(glm::vec3(0.0f, 0.2f, 0.0f));
+	armGruppe.scale(glm::vec3(0.2f, 0.3f, 0.6f));
+
+	/***
+	 *Parent Transformation für die linken Armen
+	 *Translation für alle Teile der linken Arme nach links
+	*/
+
+	linkeArmGruppe = Transform(); //Einheitsmatrix erzeugen
+	linkeArmGruppe.translate(glm::vec3(-0.7f, 0.0f, 0.0f));
+
+	/***
+	 * Transformation für den linkeObererArm Arm
+	 *Skalierung für alle Teile der beiden Arme
+	*/
+	linkeObererArm = Transform();
+	linkeObererArm.translate(glm::vec3(0.0f, 0.5f, 0.0f));
+
+	linkeUntererArm = Transform();
+	linkeUntererArm.translate(glm::vec3(0.0f, -0.6f, 0.0f));
+
+	/***
+	 *Parent Transformation für die rechten Armen
+	 *Translation für alle Teile der rechten Arme nach rechts
+	*/
+	rechteArmGruppe = Transform();
+	rechteArmGruppe.translate(glm::vec3(0.7f, 0.0f, 0.0f)); //Translation linker Arm nach rechts und oben
+
+	rechteObererArm = Transform();
+	rechteObererArm.translate(glm::vec3(0.0f, 0.5f, 0.0f));
+
+	rechteUntererArm = Transform();
+	rechteUntererArm.translate(glm::vec3(0.0f, -0.6f, 0.0f));
+
+	/******
+	 *Parent Transformationen für die Beine
+	*/
+
+	beinGruppe = Transform();
+	beinGruppe.translate(glm::vec3(0.0f, -0.8f, 0.0f));
+	beinGruppe.scale(glm::vec3(0.2f, 0.5f, 0.6f));
+
+	linkesBein = Transform();
+	linkesBein.translate(glm::vec3(-0.8f, 0.0f, 0.0f));
+
+	rechtesBein = Transform();
+	rechtesBein.translate(glm::vec3(0.8f, 0.0f, 0.0f));
+
+
+
+
 
 
 }
