@@ -97,7 +97,7 @@ void Scene::render(float dt)
 
 	//continuous rotation
 	//Rotation um 45 Grad Y-Achse und 30 Graf auf X-Achse
-	rumpf.rotate(glm::vec3(0.2f * dt, glm::radians(60.0f) * dt  , 0.0f));
+	rumpf.rotate(glm::vec3(0.0f * dt, glm::radians(80.0f) * dt  , 0.0f));
 
 	//a. VAO Binden.
 	glBindVertexArray( vaoID);
