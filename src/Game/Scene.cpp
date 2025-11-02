@@ -281,6 +281,18 @@ void Scene::onFrameBufferResize(int width, int height)
 {
 
 }
+
+void Scene::transformBodyPart(Transform &transform, glm::mat4 baseMatrix) {
+
+	//parent und lokal transform kombinieren
+	glm::mat4 modelMatrix = baseMatrix * transform.getMatrix();
+
+	//Schick model matrix zum aktiven shader
+	m_shader->setUniform("model", modelMatrix,false);
+	glDrawElements(GL_TRIANGLES, sizeof(cubeInd)/sizeof(float), GL_UNSIGNED_INT, 0);
+
+}
+
 void Scene::shutdown()
 {
 
