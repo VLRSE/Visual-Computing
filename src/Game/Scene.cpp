@@ -107,6 +107,16 @@ void Scene::render(float dt)
 	transformBodyPart(rumpf, glm::mat4(1.0f)); // Child:Rumpf
 	transformBodyPart(kopf, rumpf.getMatrix()); //Child:Kopf
 
+	//linke Arme rendern
+	glm::mat4 linkerArmGruppeMatrix = rumpf.getMatrix() * linkeArmGruppe.getMatrix() * armGruppe.getMatrix()  ;
+	transformBodyPart(linkeObererArm , linkerArmGruppeMatrix);
+	transformBodyPart(linkeUntererArm ,  linkerArmGruppeMatrix);
+
+	//rechte Arme rendern
+	glm::mat4 rechterArmArmMatrix = rumpf.getMatrix() * rechteArmGruppe.getMatrix() * armGruppe.getMatrix() ;
+	transformBodyPart(rechteObererArm , rechterArmArmMatrix);
+	transformBodyPart(rechteUntererArm , rechterArmArmMatrix);
+
 
 	//c. Optionales Lösen der Bindung, um versehentliche Änderungen am VAO zu vermeiden
 	glBindVertexArray(0);
@@ -140,16 +150,31 @@ void Scene::transform()
 	kopf.translate( glm::vec3(0.0f, 0.7f, 0.0f));
 	kopf.scale(glm::vec3(0.4f, 0.2f, 1.0f));
 
-	linkeArmGruppe = Transform();
-	/*
-	linkeObererArm
-		linkeUntererArm
-		rechteArmGruppe
-		rechteObererArm
-		rechteUntererArm
-		linkesBein, rechtesBein
+	//Skalierung für alle Teile der beiden Arme
+	armGruppe = Transform();
+	armGruppe.scale(glm::vec3(0.2f, 0.3f, 0.6f)); //Skalierung linker Arm; unterer und oberer
 
-*/
+	linkeArmGruppe = Transform(); //Einheitsmatrix erzeugen
+	linkeArmGruppe.translate(glm::vec3(-0.7f, 0.2f, 0.0f)); //Translation linker Arm nach links und oben
+
+	linkeObererArm = Transform();
+	linkeObererArm.translate(glm::vec3(0.0f, 0.5f, 0.0f));
+
+	linkeUntererArm = Transform();
+	linkeUntererArm.translate(glm::vec3(0.0f, -0.6f, 0.0f));
+
+	rechteArmGruppe = Transform();
+	rechteArmGruppe.translate(glm::vec3(0.7f, 0.2f, 0.0f)); //Translation linker Arm nach rechts und oben
+
+	rechteObererArm = Transform();
+	rechteObererArm.translate(glm::vec3(0.0f, 0.5f, 0.0f));
+
+	rechteUntererArm = Transform();
+	rechteUntererArm.translate(glm::vec3(0.0f, -0.6f, 0.0f));
+
+
+
+
 
 
 
