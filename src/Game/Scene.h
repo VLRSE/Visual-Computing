@@ -32,7 +32,11 @@ private:
     ShaderProgram* m_shader;
     GLuint vaoID, vboID, iboID;
 
-	Transform robotGruppe,rumpf, kopf,linkeArmGruppe, linkeObererArm, linkeUntererArm,rechteArmGruppe, rechteObererArm,  rechteUntererArm, linkesBein, rechtesBein;
+	Transform robotGruppe,rumpf, kopf,
+		armGruppe,
+		linkeArmGruppe, linkeObererArm, linkeUntererArm,
+		rechteArmGruppe, rechteObererArm,  rechteUntererArm,
+		linkesBein, rechtesBein;
 
 };
 
