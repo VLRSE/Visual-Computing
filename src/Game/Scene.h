@@ -32,6 +32,8 @@ private:
     ShaderProgram* m_shader;
     GLuint vaoID, vboID, iboID;
 
+	float m_time = 0.0f;
+
 	Transform robotGruppe,rumpf, kopf,
 		armGruppe,
 		linkeArmGruppe, linkeObererArm, linkeUntererArm,
