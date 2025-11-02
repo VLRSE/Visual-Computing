@@ -99,38 +99,13 @@ void Scene::render(float dt)
 	//Rotation um 45 Grad Y-Achse und 30 Graf auf X-Achse
 	rumpf.rotate(glm::vec3(0.0f * dt, glm::radians(80.0f) * dt  , 0.0f));
 
+
+	//
+	m_shader->setUniform("time",m_time);
+
 	//a. VAO Binden.
 	glBindVertexArray( vaoID);
 
-	m_time += dt;
-
-	//einfache hin-und-zurück Bewegung mit sin wave
-	float bewegungGeschwindigkeit= 2.0f;
-	float bewegungAmplitude = 0.3f;
-
-	/**
-	 *Rotation Beine - "schwenken" Gehanimation
-	 **/
-	float beinAngle = sin(m_time * bewegungGeschwindigkeit) * glm::radians(30.0f) * dt;
-	glm::vec3 hüftePoint = glm::vec3(0.0f, -0.8f, 0.0f);
-	linkesBein.rotateAroundPoint(hüftePoint,  glm::vec3(beinAngle , 0.0f, 0.0f));
-	rechtesBein.rotateAroundPoint(hüftePoint,  glm::vec3(-beinAngle , 0.0f, 0.0f));
-
-	/**
-	 *Rotation obere Arme - "schwenken"
-	 **/
-	float obereArmAngle = sin(m_time * bewegungGeschwindigkeit) * glm::radians(20.0f) * dt;
-	glm::vec3 obereArmePoint = glm::vec3(0.0f, 0.7f, 0.0f);
-	linkeObererArm.rotateAroundPoint(obereArmePoint,  glm::vec3(obereArmAngle , 0.0f, 0.0f));
-	rechteObererArm.rotateAroundPoint(hüftePoint,  glm::vec3(-obereArmAngle , 0.0f, 0.0f));
-
-	/**
-	 *Rotation obere Arme - "schwenken"
-	 **/
-	float untereArmAngle = sin(m_time * bewegungGeschwindigkeit) * glm::radians(50.0f) * dt;
-	glm::vec3 untereArmePoint = glm::vec3(0.0f, 0.7f, 0.0f);
-	linkeUntererArm.rotateAroundPoint(untereArmePoint,  glm::vec3(untereArmAngle , 0.0f, 0.0f));
-	rechteUntererArm.rotateAroundPoint(untereArmePoint,  glm::vec3(-untereArmAngle , 0.0f, 0.0f));
 
 
 	/***
@@ -168,6 +143,35 @@ void Scene::render(float dt)
 
 void Scene::update(float dt)
 {
+	m_time += dt;
+
+	//einfache hin-und-zurück Bewegung mit sin wave
+	float bewegungGeschwindigkeit= 2.0f;
+	float bewegungAmplitude = 0.3f;
+
+	/**
+	 *Rotation Beine - "schwenken" Gehanimation
+	 **/
+	float beinAngle = sin(m_time * bewegungGeschwindigkeit) * glm::radians(30.0f) * dt;
+	glm::vec3 hüftePoint = glm::vec3(0.0f, -0.8f, 0.0f);
+	linkesBein.rotateAroundPoint(hüftePoint,  glm::vec3(beinAngle , 0.0f, 0.0f));
+	rechtesBein.rotateAroundPoint(hüftePoint,  glm::vec3(-beinAngle , 0.0f, 0.0f));
+
+	/**
+	 *Rotation obere Arme - "schwenken"
+	 **/
+	float obereArmAngle = sin(m_time * bewegungGeschwindigkeit) * glm::radians(20.0f) * dt;
+	glm::vec3 obereArmePoint = glm::vec3(0.0f, 0.7f, 0.0f);
+	linkeObererArm.rotateAroundPoint(obereArmePoint,  glm::vec3(obereArmAngle , 0.0f, 0.0f));
+	rechteObererArm.rotateAroundPoint(hüftePoint,  glm::vec3(-obereArmAngle , 0.0f, 0.0f));
+
+	/**
+	 *Rotation untere Arme - "schwenken"
+	 **/
+	float untereArmAngle = sin(m_time * bewegungGeschwindigkeit) * glm::radians(50.0f) * dt;
+	glm::vec3 untereArmePoint = glm::vec3(0.0f, 0.7f, 0.0f);
+	linkeUntererArm.rotateAroundPoint(untereArmePoint,  glm::vec3(untereArmAngle , 0.0f, 0.0f));
+	rechteUntererArm.rotateAroundPoint(untereArmePoint,  glm::vec3(-untereArmAngle , 0.0f, 0.0f));
 
 }
 
