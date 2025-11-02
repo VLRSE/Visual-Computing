@@ -99,6 +99,10 @@ void Scene::render(float dt)
 	//Rotation um 45 Grad Y-Achse und 30 Graf auf X-Achse
 	rumpf.rotate(glm::vec3(0.0f * dt, glm::radians(80.0f) * dt  , 0.0f));
 
+
+	//
+	m_shader->setUniform("time",m_time);
+
 	//a. VAO Binden.
 	glBindVertexArray( vaoID);
 
@@ -162,7 +166,7 @@ void Scene::update(float dt)
 	rechteObererArm.rotateAroundPoint(hüftePoint,  glm::vec3(-obereArmAngle , 0.0f, 0.0f));
 
 	/**
-	 *Rotation obere Arme - "schwenken"
+	 *Rotation untere Arme - "schwenken"
 	 **/
 	float untereArmAngle = sin(m_time * bewegungGeschwindigkeit) * glm::radians(50.0f) * dt;
 	glm::vec3 untereArmePoint = glm::vec3(0.0f, 0.7f, 0.0f);
