@@ -36,7 +36,7 @@ private:
 		armGruppe,
 		linkeArmGruppe, linkeObererArm, linkeUntererArm,
 		rechteArmGruppe, rechteObererArm,  rechteUntererArm,
-		linkesBein, rechtesBein;
+		beinGruppe, linkesBein, rechtesBein;
 
 };
 
