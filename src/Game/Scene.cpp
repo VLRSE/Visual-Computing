@@ -97,7 +97,7 @@ void Scene::render(float dt)
 
 	//continuous rotation
 	//Rotation um 45 Grad Y-Achse und 30 Graf auf X-Achse
-	rumpf.rotate(glm::vec3(0.0f * dt, glm::radians(80.0f) * dt  , 0.0f));
+	rumpf.rotate(glm::vec3(0.0f, glm::radians(80.0f) * dt  , 0.0f));
 
 
 	//
@@ -105,8 +105,6 @@ void Scene::render(float dt)
 
 	//a. VAO Binden.
 	glBindVertexArray( vaoID);
-
-
 
 	/***
 	 **Körperteile rendern
@@ -152,10 +150,16 @@ void Scene::update(float dt)
 	/**
 	 *Rotation Beine - "schwenken" Gehanimation
 	 **/
+
+	//Rotationsamplitude zwischen -30 und +30
 	float beinAngle = sin(m_time * bewegungGeschwindigkeit) * glm::radians(30.0f) * dt;
-	glm::vec3 hüftePoint = glm::vec3(0.0f, -0.8f, 0.0f);
-	linkesBein.rotateAroundPoint(hüftePoint,  glm::vec3(beinAngle , 0.0f, 0.0f));
-	rechtesBein.rotateAroundPoint(hüftePoint,  glm::vec3(-beinAngle , 0.0f, 0.0f));
+	glm::vec3 hüftePoint = glm::vec3(0.0f, 0.0f, 0.0f);
+	glm::quat deltaRotRechts = glm::angleAxis(-beinAngle, glm::vec3(1.0f, 0.0f, 0.0f));
+	glm::quat deltaRotLinks = glm::angleAxis(beinAngle, glm::vec3(1.0f, 0.0f, 0.0f));
+	linkesBein.rotateAroundPoint(hüftePoint,  deltaRotLinks);
+	rechtesBein.rotateAroundPoint(hüftePoint,  deltaRotRechts);
+	//linkesBein.rotateAroundPoint(hüftePoint,  glm::vec3(beinAngle , 0.0f, 0.0f));
+	//rechtesBein.rotateAroundPoint(hüftePoint,  glm::vec3(-beinAngle , 0.0f, 0.0f));
 
 	/**
 	 *Rotation obere Arme - "schwenken"
@@ -251,13 +255,15 @@ void Scene::transform()
 
 	beinGruppe = Transform();
 	beinGruppe.translate(glm::vec3(0.0f, -0.8f, 0.0f));
-	beinGruppe.scale(glm::vec3(0.2f, 0.5f, 0.6f));
+	//beinGruppe.scale(glm::vec3(0.2f, 0.5f, 0.6f));
 
 	linkesBein = Transform();
-	linkesBein.translate(glm::vec3(-0.8f, 0.0f, 0.0f));
+	linkesBein.translate(glm::vec3(-0.2f, 0.0f, 0.0f));
+	linkesBein.scale(glm::vec3(0.2f, 0.5f, 0.6f));
 
 	rechtesBein = Transform();
-	rechtesBein.translate(glm::vec3(0.8f, 0.0f, 0.0f));
+	rechtesBein.translate(glm::vec3(0.2f, 0.0f, 0.0f));
+	rechtesBein.scale(glm::vec3(0.2f, 0.5f, 0.6f));
 
 }
 
