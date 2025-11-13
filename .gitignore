@@ -35,6 +35,8 @@ DerivedData/
 *.mode2v3
 *.perspectivev3
 project.xcworkspace/
+libs/glew-2.1.0/glew.pc
+
 
 # ---- Compiled object files ----
 *.o
