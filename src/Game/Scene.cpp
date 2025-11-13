@@ -162,20 +162,33 @@ void Scene::update(float dt)
 	//rechtesBein.rotateAroundPoint(hüftePoint,  glm::vec3(-beinAngle , 0.0f, 0.0f));
 
 	/**
-	 *Rotation obere Arme - "schwenken"
+	 *Rotation linke Arme - "schwenken"
 	 **/
-	float obereArmAngle = sin(m_time * bewegungGeschwindigkeit) * glm::radians(20.0f) * dt;
+	float linkeArmAngle = sin(m_time * bewegungGeschwindigkeit) * glm::radians(10.0f) * dt;
 	glm::vec3 obereArmePoint = glm::vec3(0.0f, 0.7f, 0.0f);
-	linkeObererArm.rotateAroundPoint(obereArmePoint,  glm::vec3(obereArmAngle , 0.0f, 0.0f));
-	rechteObererArm.rotateAroundPoint(hüftePoint,  glm::vec3(-obereArmAngle , 0.0f, 0.0f));
+	//linkeObererArm.rotateAroundPoint(obereArmePoint,  glm::vec3(obereArmAngle , 0.0f, 0.0f));
+	float linkeUntererArmAngle = sin(m_time * bewegungGeschwindigkeit) * glm::radians(10.0f) * dt;
+	glm::vec3 untereArmePoint = glm::vec3(0.0f, 0.4f, 0.0f);
+	linkeUntererArm.rotateAroundPoint(untereArmePoint,  glm::vec3(-linkeUntererArmAngle , 0.0f, 0.0f));
 
+	linkeArmGruppe.rotateAroundPoint(obereArmePoint,  glm::vec3(linkeArmAngle , 0.0f, 0.0f));
+
+
+	//linkeArmGruppe.rotateAroundPoint(hüftePoint,  glm::vec3(-obereArmAngle , 0.0f, 0.0f));
 	/**
-	 *Rotation untere Arme - "schwenken"
+	 *Rotation rechte Arme - "schwenken"
 	 **/
-	float untereArmAngle = sin(m_time * bewegungGeschwindigkeit) * glm::radians(50.0f) * dt;
-	glm::vec3 untereArmePoint = glm::vec3(0.0f, 0.7f, 0.0f);
-	linkeUntererArm.rotateAroundPoint(untereArmePoint,  glm::vec3(untereArmAngle , 0.0f, 0.0f));
-	rechteUntererArm.rotateAroundPoint(untereArmePoint,  glm::vec3(-untereArmAngle , 0.0f, 0.0f));
+
+
+	float rechteObererArmAngle = sin(m_time * bewegungGeschwindigkeit) * glm::radians(30.0f) * dt;
+	rechteObererArm.rotateAroundPoint(obereArmePoint,  glm::vec3(-rechteObererArmAngle , 0.0f, 0.0f));
+
+	float rechteUntererArmAngle = sin(m_time * bewegungGeschwindigkeit) * glm::radians(50.0f) * dt;
+	rechteUntererArm.rotateAroundPoint(untereArmePoint,  glm::vec3(-rechteUntererArmAngle , 0.0f, 0.0f));
+
+	float linkeArmGruppeArmAngle = sin(m_time * bewegungGeschwindigkeit) * glm::radians(10.0f) * dt;
+
+	rechteArmGruppe.rotateAroundPoint(obereArmePoint,  glm::vec3(linkeArmGruppeArmAngle , 0.0f, 0.0f));
 
 }
 
