@@ -97,7 +97,7 @@ void Scene::render(float dt)
 
 	//continuous rotation
 	//Rotation um 45 Grad Y-Achse und 30 Graf auf X-Achse
-	rumpf.rotate(glm::vec3(0.0f, glm::radians(80.0f) * dt  , 0.0f));
+	rumpf.rotate(glm::vec3(0.0f, glm::radians(90.0f) * dt  , 0.0f));
 
 
 	//
@@ -199,7 +199,7 @@ void Scene::transform()
 	 *Skalierung vom Rumpf
 	*/
 	rumpf = Transform();
-	rumpf.scale(glm::vec3(0.5f, 0.8f, 0.5f));
+	rumpf.scale(glm::vec3(0.5f, 0.8f, 0.4f));
 	rumpf.rotate(glm::vec3(0.1f , glm::radians(60.0f)   , 0.0f));
 
 	/***
@@ -215,7 +215,7 @@ void Scene::transform()
 	 *Skalierung und Translation nach oben für alle Teile der beiden Arme
 	*/
 	armGruppe = Transform();
-	armGruppe.translate(glm::vec3(0.0f, -0.2f, -0.2f));
+	//armGruppe.translate(glm::vec3(0.0f, -0.2f, -0.2f));
 
 
 	/***
@@ -224,49 +224,50 @@ void Scene::transform()
 	*/
 
 	linkeArmGruppe = Transform(); //Einheitsmatrix erzeugen
-	linkeArmGruppe.translate(glm::vec3(-0.7f, 0.0f, 0.0f));
+	linkeArmGruppe.translate(glm::vec3(-0.7f, 0.0f, -0.3f));
 
 	/***
 	 * Transformation für den linkeObererArm Arm
 	 *Skalierung für alle Teile der beiden Arme
 	*/
 	linkeObererArm = Transform();
-	linkeObererArm.translate(glm::vec3(0.0f, 0.5f, 0.0f));
-	linkeObererArm.scale(glm::vec3(0.3f, 0.4f, 0.3f));
+	linkeObererArm.translate(glm::vec3(0.0f, 0.3f, 0.0f));
+	linkeObererArm.scale(glm::vec3(0.25f, 0.35f, 0.25f));
 
 	linkeUntererArm = Transform();
-	//linkeUntererArm.translate(glm::vec3(0.0f, -0.6f, 0.0f));
-	linkeUntererArm.scale(glm::vec3(0.3f, 0.4f, 0.3f));
+	linkeUntererArm.translate(glm::vec3(0.0f, -0.1f, 0.0f));
+	linkeUntererArm.scale(glm::vec3(0.25f, 0.35f, 0.25f));
 
 	/***
 	 *Parent Transformation für die rechten Armen
 	 *Translation für alle Teile der rechten Arme nach rechts
 	*/
 	rechteArmGruppe = Transform();
-	rechteArmGruppe.translate(glm::vec3(0.7f, 0.0f, 0.0f)); //Translation linker Arm nach rechts und oben
+	rechteArmGruppe.translate(glm::vec3(0.7f, 0.0f, -0.3f)); //Translation linker Arm nach rechts und oben
 
 	rechteObererArm = Transform();
-	rechteObererArm.translate(glm::vec3(0.0f, 0.5f, 0.0f));
-	rechteObererArm.scale(glm::vec3(0.3f, 0.4f, 0.3f));
+	rechteObererArm.translate(glm::vec3(0.0f, 0.3f, 0.0f));
+	rechteObererArm.scale(glm::vec3(0.25f, 0.35f, 0.25f));
 
 	rechteUntererArm = Transform();
-	rechteUntererArm.scale(glm::vec3(0.3f, 0.4f, 0.3f));
+	rechteUntererArm.translate(glm::vec3(0.0f, -0.1f, 0.0f));
+	rechteUntererArm.scale(glm::vec3(0.25f, 0.35f, 0.25f));
 
 	/******
 	 *Parent Transformationen für die Beine
 	*/
 
 	beinGruppe = Transform();
-	beinGruppe.translate(glm::vec3(0.0f, -0.8f, 0.0f));
+	beinGruppe.translate(glm::vec3(0.0f, -0.6f, 0.0f));
 	//beinGruppe.scale(glm::vec3(0.2f, 0.5f, 0.6f));
 
 	linkesBein = Transform();
 	linkesBein.translate(glm::vec3(-0.2f, 0.0f, 0.0f));
-	linkesBein.scale(glm::vec3(0.2f, 0.5f, 0.6f));
+	linkesBein.scale(glm::vec3(0.2f, 0.7f, 0.2f));
 
 	rechtesBein = Transform();
 	rechtesBein.translate(glm::vec3(0.2f, 0.0f, 0.0f));
-	rechtesBein.scale(glm::vec3(0.2f, 0.5f, 0.6f));
+	rechtesBein.scale(glm::vec3(0.2f, 0.7f, 0.2f));
 
 }
 
