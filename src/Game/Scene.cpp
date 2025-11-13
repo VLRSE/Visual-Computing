@@ -215,7 +215,7 @@ void Scene::transform()
 	 *Skalierung und Translation nach oben für alle Teile der beiden Arme
 	*/
 	armGruppe = Transform();
-	armGruppe.translate(glm::vec3(0.0f, 0.2f, 0.0f));
+	armGruppe.translate(glm::vec3(0.0f, -0.2f, -0.2f));
 
 
 	/***
@@ -232,9 +232,11 @@ void Scene::transform()
 	*/
 	linkeObererArm = Transform();
 	linkeObererArm.translate(glm::vec3(0.0f, 0.5f, 0.0f));
+	linkeObererArm.scale(glm::vec3(0.3f, 0.4f, 0.3f));
 
 	linkeUntererArm = Transform();
-	linkeUntererArm.translate(glm::vec3(0.0f, -0.6f, 0.0f));
+	//linkeUntererArm.translate(glm::vec3(0.0f, -0.6f, 0.0f));
+	linkeUntererArm.scale(glm::vec3(0.3f, 0.4f, 0.3f));
 
 	/***
 	 *Parent Transformation für die rechten Armen
@@ -245,9 +247,10 @@ void Scene::transform()
 
 	rechteObererArm = Transform();
 	rechteObererArm.translate(glm::vec3(0.0f, 0.5f, 0.0f));
+	rechteObererArm.scale(glm::vec3(0.3f, 0.4f, 0.3f));
 
 	rechteUntererArm = Transform();
-	rechteUntererArm.translate(glm::vec3(0.0f, -0.6f, 0.0f));
+	rechteUntererArm.scale(glm::vec3(0.3f, 0.4f, 0.3f));
 
 	/******
 	 *Parent Transformationen für die Beine
