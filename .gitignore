@@ -45,7 +45,6 @@ project.xcworkspace/
 *.out
 *.dylib
 *.exe
-*.pc
 
 # ---- Logs / temp ----
 *.log
