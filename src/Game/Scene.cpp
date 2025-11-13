@@ -199,7 +199,7 @@ void Scene::transform()
 	 *Skalierung vom Rumpf
 	*/
 	rumpf = Transform();
-	rumpf.scale(glm::vec3(0.5f, 0.8f, 0.2f));
+	rumpf.scale(glm::vec3(0.5f, 0.8f, 0.5f));
 	rumpf.rotate(glm::vec3(0.1f , glm::radians(60.0f)   , 0.0f));
 
 	/***
@@ -208,7 +208,7 @@ void Scene::transform()
 	*/
 	kopf = Transform();
 	kopf.translate( glm::vec3(0.0f, 0.7f, 0.0f));
-	kopf.scale(glm::vec3(0.4f, 0.2f, 1.0f));
+	kopf.scale(glm::vec3(0.4f, 0.2f, 0.5f));
 
 	/***
 	 *Parent Transformation für die Armen
@@ -216,7 +216,7 @@ void Scene::transform()
 	*/
 	armGruppe = Transform();
 	armGruppe.translate(glm::vec3(0.0f, 0.2f, 0.0f));
-	armGruppe.scale(glm::vec3(0.2f, 0.3f, 0.6f));
+
 
 	/***
 	 *Parent Transformation für die linken Armen
