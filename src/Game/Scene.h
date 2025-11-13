@@ -25,6 +25,8 @@ public:
 	void onMouseButton(MouseButton button, Action action, Modifier modifier);
 	void onMouseScroll(double xscroll, double yscroll);
 	void onFrameBufferResize(int width, int height);
+	
+	void transformBodyPart(Transform& transform, glm::mat4 baseMatrix);
 
 private:
 	OpenGLWindow* m_window;
