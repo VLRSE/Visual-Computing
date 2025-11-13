@@ -167,7 +167,7 @@ void Scene::update(float dt)
 	float linkeArmAngle = sin(m_time * bewegungGeschwindigkeit) * glm::radians(10.0f) * dt;
 	glm::vec3 obereArmePoint = glm::vec3(0.0f, 0.7f, 0.0f);
 	//linkeObererArm.rotateAroundPoint(obereArmePoint,  glm::vec3(obereArmAngle , 0.0f, 0.0f));
-	float linkeUntererArmAngle = sin(m_time * bewegungGeschwindigkeit) * glm::radians(10.0f) * dt;
+	float linkeUntererArmAngle = sin(m_time * bewegungGeschwindigkeit) * glm::radians(20.0f) * dt;
 	glm::vec3 untereArmePoint = glm::vec3(0.0f, 0.4f, 0.0f);
 	linkeUntererArm.rotateAroundPoint(untereArmePoint,  glm::vec3(-linkeUntererArmAngle , 0.0f, 0.0f));
 
