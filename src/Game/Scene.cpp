@@ -241,7 +241,7 @@ void Scene::transform()
 	 *Parent Transformation für die Armen
 	 *Skalierung und Translation nach oben für alle Teile der beiden Arme
 	*/
-	armGruppe = Transform();
+	//armGruppe = Transform();
 	//armGruppe.translate(glm::vec3(0.0f, -0.2f, -0.2f));
 
 
@@ -250,35 +250,35 @@ void Scene::transform()
 	 *Translation für alle Teile der linken Arme nach links
 	*/
 
-	linkeArmGruppe = Transform(); //Einheitsmatrix erzeugen
-	linkeArmGruppe.translate(glm::vec3(-0.7f, 0.0f, -0.3f));
+	//linkeArmGruppe = Transform(); //Einheitsmatrix erzeugen
+	//linkeArmGruppe.translate(glm::vec3(-0.7f, 0.0f, -0.3f));
 
 	/***
 	 * Transformation für den linkeObererArm Arm
 	 *Skalierung für alle Teile der beiden Arme
 	*/
 	linkeObererArm = Transform();
-	linkeObererArm.translate(glm::vec3(0.0f, 0.3f, 0.0f));
-	linkeObererArm.scale(glm::vec3(0.25f, 0.35f, 0.25f));
+	linkeObererArm.translate(rumpfPosition + glm::vec3(-0.65, 0.3, 0.0));
+	linkeObererArm.scale(glm::vec3(0.2, 0.4, 0.25));
 
 	linkeUntererArm = Transform();
-	linkeUntererArm.translate(glm::vec3(0.0f, -0.1f, 0.0f));
-	linkeUntererArm.scale(glm::vec3(0.25f, 0.35f, 0.25f));
+	linkeUntererArm.translate(rumpfPosition + glm::vec3(0.65, -0.15, 0.0));
+	linkeUntererArm.scale(glm::vec3(0.2, 0.4, 0.25));
 
 	/***
 	 *Parent Transformation für die rechten Armen
 	 *Translation für alle Teile der rechten Arme nach rechts
 	*/
-	rechteArmGruppe = Transform();
-	rechteArmGruppe.translate(glm::vec3(0.7f, 0.0f, -0.3f)); //Translation linker Arm nach rechts und oben
+	//rechteArmGruppe = Transform();
+	//rechteArmGruppe.translate(glm::vec3(0.7f, 0.0f, -0.3f)); //Translation linker Arm nach rechts und oben
 
 	rechteObererArm = Transform();
-	rechteObererArm.translate(glm::vec3(0.0f, 0.3f, 0.0f));
-	rechteObererArm.scale(glm::vec3(0.25f, 0.35f, 0.25f));
+	rechteObererArm.translate(rumpfPosition + glm::vec3(0.65, 0.3, 0.0));
+	rechteObererArm.scale(glm::vec3(0.2, 0.4, 0.25));
 
 	rechteUntererArm = Transform();
-	rechteUntererArm.translate(glm::vec3(0.0f, -0.1f, 0.0f));
-	rechteUntererArm.scale(glm::vec3(0.25f, 0.35f, 0.25f));
+	rechteUntererArm.translate(rumpfPosition + glm::vec3(-0.65, -0.15, 0.0));
+	rechteUntererArm.scale(glm::vec3(0.2, 0.4, 0.25));
 
 	/******
 	 *Parent Transformationen für die Beine
