@@ -45,6 +45,8 @@ private:
 	//Up Vektor
 	glm::vec3 kameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
+	glm::mat4 projectionMatrix;
+
 	float m_time = 0.0f;
 
 	Transform robotGruppe,rumpf, kopf,
