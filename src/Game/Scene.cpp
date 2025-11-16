@@ -69,8 +69,8 @@ bool Scene::init()
 		glCullFace(GL_BACK);
 
 		glEnable(GL_DEPTH_TEST);
-		glDepthFunc(GL_GREATER);
-		glClearDepth(0.0);
+		glDepthFunc(GL_LESS);
+		glClearDepth(1.0);
 
         std::cout << "Scene initialization done\n";
         return true;
@@ -96,10 +96,18 @@ void Scene::render(float dt)
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f); //background color black
 
 
-	//view Matrix
+	//Aufgabe 3.1.1 view Matrix
 	viewMatrix = glm::lookAt(kameraPosition, kameraRichtung, kameraUp);
 	m_shader->setUniform("view", viewMatrix, false);
 
+	//Aufgabe 3.1.2 Die ProjectionMatrix
+	auto windowWidth = static_cast<float>(getWindow()->getWindowWidth());
+	auto windowHeight = static_cast<float>(getWindow()->getWindowHeight());
+	float aspectRatio = windowWidth / windowHeight;
+
+	//45 Grad normaler Kamera und kleinerer Wert = Zoom
+	projectionMatrix = glm::perspective(glm::radians(45.0f), aspectRatio, 0.1f, 100.0f);
+	m_shader->setUniform("projection", projectionMatrix, false);
 	//continuous rotation
 	//Rotation um 45 Grad Y-Achse und 30 Graf auf X-Achse
 	rumpf.rotate(glm::vec3(0.0f, glm::radians(90.0f) * dt  , 0.0f));
