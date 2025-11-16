@@ -108,16 +108,13 @@ void Scene::render(float dt)
 	//45 Grad normaler Kamera und kleinerer Wert = Zoom
 	projectionMatrix = glm::perspective(glm::radians(45.0f), aspectRatio, 0.1f, 100.0f);
 	m_shader->setUniform("projection", projectionMatrix, false);
-	//continuous rotation
-	//Rotation um 45 Grad Y-Achse und 30 Graf auf X-Achse
-	rumpf.rotate(glm::vec3(0.0f, glm::radians(90.0f) * dt  , 0.0f));
-
-
-	//
-	m_shader->setUniform("time",m_time);
 
 	//a. VAO Binden.
 	glBindVertexArray( vaoID);
+
+	//continuous rotation
+	//Rotation um 45 Grad Y-Achse und 30 Graf auf X-Achse
+	rumpf.rotate(glm::vec3(glm::radians(0.0f) * dt, glm::radians(23.0f) * dt, glm::radians(0.0f) * dt));
 
 	/***
 	 **Körperteile rendern
@@ -128,23 +125,26 @@ void Scene::render(float dt)
 	transformBodyPart(kopf, rumpf.getMatrix()); //Child:Kopf
 
 	//linke Arme rendern
-	glm::mat4 linkerArmGruppeMatrix = rumpf.getMatrix() * linkeArmGruppe.getMatrix() * armGruppe.getMatrix()  ;
-	transformBodyPart(linkeObererArm , linkerArmGruppeMatrix);
-	transformBodyPart(linkeUntererArm ,  linkerArmGruppeMatrix);
+	transformBodyPart(linkeObererArm ,rumpf.getMatrix());
+	transformBodyPart(linkeUntererArm ,  rumpf.getMatrix());
 
 	//rechte Arme rendern
-	glm::mat4 rechterArmArmMatrix = rumpf.getMatrix() * rechteArmGruppe.getMatrix() * armGruppe.getMatrix() ;
-	transformBodyPart(rechteObererArm , rechterArmArmMatrix);
-	transformBodyPart(rechteUntererArm , rechterArmArmMatrix);
+	transformBodyPart(rechteObererArm , rumpf.getMatrix());
+	transformBodyPart(rechteUntererArm , rumpf.getMatrix());
 
 	//Beine rendern
-	glm::mat4 rechtesBeinArmMatrix = rumpf.getMatrix() * beinGruppe.getMatrix() ;
-	transformBodyPart(linkesBein , rechtesBeinArmMatrix);
-	transformBodyPart(rechtesBein , rechtesBeinArmMatrix);
+	transformBodyPart(linkesBein , rumpf.getMatrix());
+	transformBodyPart(rechtesBein , rumpf.getMatrix());
 
 
-
-
+	//Bewegung
+	auto swingAngle = float(glm::radians(30.0f) * glm::sin(5.0f * glfwGetTime()*0.75));
+	linkeUntererArm.setRotation(glm::vec3(swingAngle/2,0.0 ,0.0 ));
+	linkeObererArm.setRotation(glm::vec3(-swingAngle/6,0.0 ,0.0 ));
+	rechteUntererArm.setRotation(glm::vec3(-swingAngle/2,0.0 ,0.0 ));
+	rechteObererArm.setRotation(glm::vec3(swingAngle/6,0.0 ,0.0 ));
+	linkesBein.setRotation(glm::vec3(-swingAngle/2,0.0 ,0.0 ));
+	rechtesBein.setRotation(glm::vec3(swingAngle,0.0 ,0.0 ));
 
 	//c. Optionales Lösen der Bindung, um versehentliche Änderungen am VAO zu vermeiden
 	glBindVertexArray(0);
@@ -154,55 +154,8 @@ void Scene::render(float dt)
 
 void Scene::update(float dt)
 {
-	m_time += dt;
-
-	//einfache hin-und-zurück Bewegung mit sin wave
-	float bewegungGeschwindigkeit= 2.0f;
-	float bewegungAmplitude = 0.3f;
-
-	/**
-	 *Rotation Beine - "schwenken" Gehanimation
-	 **/
-
-	//Rotationsamplitude zwischen -30 und +30
-	float beinAngle = sin(m_time * bewegungGeschwindigkeit) * glm::radians(30.0f) * dt;
-	glm::vec3 hüftePoint = glm::vec3(0.0f, 0.0f, 0.0f);
-	glm::quat deltaRotRechts = glm::angleAxis(-beinAngle, glm::vec3(1.0f, 0.0f, 0.0f));
-	glm::quat deltaRotLinks = glm::angleAxis(beinAngle, glm::vec3(1.0f, 0.0f, 0.0f));
-	linkesBein.rotateAroundPoint(hüftePoint,  deltaRotLinks);
-	rechtesBein.rotateAroundPoint(hüftePoint,  deltaRotRechts);
-	//linkesBein.rotateAroundPoint(hüftePoint,  glm::vec3(beinAngle , 0.0f, 0.0f));
-	//rechtesBein.rotateAroundPoint(hüftePoint,  glm::vec3(-beinAngle , 0.0f, 0.0f));
-
-	/**
-	 *Rotation linke Arme - "schwenken"
-	 **/
-	float linkeArmAngle = sin(m_time * bewegungGeschwindigkeit) * glm::radians(10.0f) * dt;
-	glm::vec3 obereArmePoint = glm::vec3(0.0f, 0.7f, 0.0f);
-	//linkeObererArm.rotateAroundPoint(obereArmePoint,  glm::vec3(obereArmAngle , 0.0f, 0.0f));
-	float linkeUntererArmAngle = sin(m_time * bewegungGeschwindigkeit) * glm::radians(20.0f) * dt;
-	glm::vec3 untereArmePoint = glm::vec3(0.0f, 0.4f, 0.0f);
-	linkeUntererArm.rotateAroundPoint(untereArmePoint,  glm::vec3(-linkeUntererArmAngle , 0.0f, 0.0f));
-
-	linkeArmGruppe.rotateAroundPoint(obereArmePoint,  glm::vec3(linkeArmAngle , 0.0f, 0.0f));
-
-
-	//linkeArmGruppe.rotateAroundPoint(hüftePoint,  glm::vec3(-obereArmAngle , 0.0f, 0.0f));
-	/**
-	 *Rotation rechte Arme - "schwenken"
-	 **/
-
-
-	float rechteObererArmAngle = sin(m_time * bewegungGeschwindigkeit) * glm::radians(30.0f) * dt;
-	rechteObererArm.rotateAroundPoint(obereArmePoint,  glm::vec3(-rechteObererArmAngle , 0.0f, 0.0f));
-
-	float rechteUntererArmAngle = sin(m_time * bewegungGeschwindigkeit) * glm::radians(50.0f) * dt;
-	rechteUntererArm.rotateAroundPoint(untereArmePoint,  glm::vec3(-rechteUntererArmAngle , 0.0f, 0.0f));
-
-	float linkeArmGruppeArmAngle = sin(m_time * bewegungGeschwindigkeit) * glm::radians(10.0f) * dt;
-
-	rechteArmGruppe.rotateAroundPoint(obereArmePoint,  glm::vec3(linkeArmGruppeArmAngle , 0.0f, 0.0f));
-
+	viewMatrix = glm::lookAt(kameraPosition, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	m_shader->setUniform("view", viewMatrix, false);
 }
 
 OpenGLWindow * Scene::getWindow()
@@ -212,89 +165,52 @@ OpenGLWindow * Scene::getWindow()
 
 void Scene::transform()
 {
-	/***
-	 *Robot-Gruppe (Parent Transformation - continous rotation)
-	 *Translation zur Ursprung
-	*/
-	auto rumpfPosition= glm::vec3(0.0f, 0.0f, 0.0f);
-	//robotGruppe = Transform();
-	//robotGruppe.translate(rumpfPosition); // Ursprung
 
-	/***
-	 *Rumpf Transformation
-	 *Skalierung vom Rumpf
-	*/
-	rumpf = Transform();
-	rumpf.translate(rumpfPosition);
-	rumpf.scale(glm::vec3(0.3, 0.7, 0.3));
-	//rumpf.rotate(glm::vec3(0.1f , glm::radians(60.0f)   , 0.0f));
+	auto rumpfPosition = glm::vec3(0.0, 0.0, 0.0);
+    rumpf = Transform();
+    rumpf.translate(rumpfPosition);
 
-	/***
-	 *Kopf Transformation
-	 *Skalierung und Translation um Y-Achse
-	*/
-	kopf = Transform();
-	kopf.translate(rumpfPosition + glm::vec3(0.0, 0.65, 0.0));
-	kopf.scale(glm::vec3(0.35, 0.2, 0.3));
+    kopf = Transform();
+    kopf.translate(rumpfPosition + glm::vec3(0.0, 0.65, 0.0));
 
-	/***
-	 *Parent Transformation für die Armen
-	 *Skalierung und Translation nach oben für alle Teile der beiden Arme
-	*/
-	//armGruppe = Transform();
-	//armGruppe.translate(glm::vec3(0.0f, -0.2f, -0.2f));
+    linkeObererArm = Transform();
+    linkeObererArm.translate(rumpfPosition + glm::vec3(-0.65, 0.3, 0.0));
+
+    linkeUntererArm = Transform();
+    linkeUntererArm.translate(rumpfPosition + glm::vec3(0.65, -0.15, 0.0));
+
+    rechteObererArm = Transform();
+    rechteObererArm.translate(rumpfPosition + glm::vec3(0.65, 0.3, 0.0));
+
+    rechteUntererArm = Transform();
+    rechteUntererArm.translate(rumpfPosition + glm::vec3(-0.65, -0.15, 0.0));
+
+    linkesBein = Transform();
+    linkesBein.translate(rumpfPosition + glm::vec3(-0.15, -0.7, 0.0));
+
+    rechtesBein = Transform();
+    rechtesBein.translate(rumpfPosition + glm::vec3(0.15, -0.7, 0.0));
+
+    //skalierung
+    rumpf.scale(glm::vec3(0.3, 0.7, 0.3));
+    kopf.scale(glm::vec3(0.35, 0.2, 0.3));
+    linkeObererArm.scale(glm::vec3(0.2, 0.4, 0.25));
+    linkeUntererArm.scale(glm::vec3(0.2, 0.4, 0.25));
+    rechteObererArm.scale(glm::vec3(0.2, 0.4, 0.25));
+    rechteUntererArm.scale(glm::vec3(0.2, 0.4, 0.25));
+    linkesBein.scale(glm::vec3(0.25, 0.45, 0.25));
+    rechtesBein.scale(glm::vec3(0.25, 0.45, 0.25));
 
 
-	/***
-	 *Parent Transformation für die linken Armen
-	 *Translation für alle Teile der linken Arme nach links
-	*/
-
-	//linkeArmGruppe = Transform(); //Einheitsmatrix erzeugen
-	//linkeArmGruppe.translate(glm::vec3(-0.7f, 0.0f, -0.3f));
-
-	/***
-	 * Transformation für den linkeObererArm Arm
-	 *Skalierung für alle Teile der beiden Arme
-	*/
-	linkeObererArm = Transform();
-	linkeObererArm.translate(rumpfPosition + glm::vec3(-0.65, 0.3, 0.0));
-	linkeObererArm.scale(glm::vec3(0.2, 0.4, 0.25));
-
-	linkeUntererArm = Transform();
-	linkeUntererArm.translate(rumpfPosition + glm::vec3(0.65, -0.15, 0.0));
-	linkeUntererArm.scale(glm::vec3(0.2, 0.4, 0.25));
-
-	/***
-	 *Parent Transformation für die rechten Armen
-	 *Translation für alle Teile der rechten Arme nach rechts
-	*/
-	//rechteArmGruppe = Transform();
-	//rechteArmGruppe.translate(glm::vec3(0.7f, 0.0f, -0.3f)); //Translation linker Arm nach rechts und oben
-
-	rechteObererArm = Transform();
-	rechteObererArm.translate(rumpfPosition + glm::vec3(0.65, 0.3, 0.0));
-	rechteObererArm.scale(glm::vec3(0.2, 0.4, 0.25));
-
-	rechteUntererArm = Transform();
-	rechteUntererArm.translate(rumpfPosition + glm::vec3(-0.65, -0.15, 0.0));
-	rechteUntererArm.scale(glm::vec3(0.2, 0.4, 0.25));
-
-	/******
-	 *Parent Transformationen für die Beine
-	*/
-
-	beinGruppe = Transform();
-	beinGruppe.translate(glm::vec3(0.0f, -0.6f, 0.0f));
-	//beinGruppe.scale(glm::vec3(0.2f, 0.5f, 0.6f));
-
-	linkesBein = Transform();
-	linkesBein.translate(glm::vec3(-0.2f, 0.0f, 0.0f));
-	linkesBein.scale(glm::vec3(0.2f, 0.7f, 0.2f));
-
-	rechtesBein = Transform();
-	rechtesBein.translate(glm::vec3(0.2f, 0.0f, 0.0f));
-	rechtesBein.scale(glm::vec3(0.2f, 0.7f, 0.2f));
+    //rotation
+    linkesBein.rotateAroundPoint(rumpfPosition + glm::vec3(0.0, -0.7, 0.0), glm::vec3(0.0, 0.0, -3.0f));
+    rechtesBein.rotateAroundPoint(rumpfPosition + glm::vec3(0.0, -0.7, 0.0), glm::vec3(0.0, 0.0, 3.0f));
+    linkeObererArm.rotateAroundPoint(linkeObererArm.getPosition(), glm::vec3(glm::radians(0.0f), 0.0, glm::radians(0.0f)));
+    rechteObererArm.rotateAroundPoint(rechteObererArm.getPosition(), glm::vec3(glm::radians(0.0f), 0.0, glm::radians(0.0f)));
+    rechteUntererArm.rotateAroundPoint(rechteObererArm.getPosition(), glm::vec3(glm::radians(0.0f), 0.0, glm::radians(0.0f)));
+    linkeUntererArm.rotateAroundPoint(linkeObererArm.getPosition(), glm::vec3(glm::radians(0.0f), 0.0, glm::radians(0.0f)));
+    kopf.rotateAroundPoint(kopf.getPosition(), glm::vec3(glm::radians(0.0f), 0.0, glm::radians(0.0f)));
+    rumpf.rotate(glm::angleAxis(glm::radians(-30.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
 
 }
 
