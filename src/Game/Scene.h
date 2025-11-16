@@ -34,6 +34,17 @@ private:
     ShaderProgram* m_shader;
     GLuint vaoID, vboID, iboID;
 
+	glm::mat4 viewMatrix;
+	glm::vec3 kameraPosition = glm::vec3(0.0f, 0.0, 0.0); // Kamera im Ursprung
+
+	/*in Normalized Device Space (NDC), Die Kamera schaut entlang der negativen Z-Achse
+	 *
+	 */
+	glm::vec3 kameraRichtung = glm::vec3(0.0f, 0.0f, -1.0f); //Blickrichtung -Z
+
+	//Up Vektor
+	glm::vec3 kameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+
 	float m_time = 0.0f;
 
 	Transform robotGruppe,rumpf, kopf,
