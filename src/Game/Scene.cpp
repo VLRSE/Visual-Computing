@@ -95,6 +95,11 @@ void Scene::render(float dt)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //Reset Buffers before drawing
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f); //background color black
 
+
+	//view Matrix
+	viewMatrix = glm::lookAt(kameraPosition, kameraRichtung, kameraUp);
+	m_shader->setUniform("view", viewMatrix, false);
+
 	//continuous rotation
 	//Rotation um 45 Grad Y-Achse und 30 Graf auf X-Achse
 	rumpf.rotate(glm::vec3(0.0f, glm::radians(90.0f) * dt  , 0.0f));

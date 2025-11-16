@@ -6,9 +6,10 @@ layout (location = 1) in vec3 colorRGB;
 out vec3 colorVS;
 
 uniform mat4 model;
+uniform mat4 view;
 
 void main(){
     colorVS = colorRGB;
-    gl_Position =  model * vec4(pos, 1.0);
+    gl_Position = view *  model * vec4(pos, 1.0);
 
 }
