@@ -234,8 +234,8 @@ void Scene::transform()
 	 *Skalierung und Translation um Y-Achse
 	*/
 	kopf = Transform();
-	kopf.translate( glm::vec3(0.0f, 0.7f, 0.0f));
-	kopf.scale(glm::vec3(0.4f, 0.2f, 0.5f));
+	kopf.translate(rumpfPosition + glm::vec3(0.0, 0.65, 0.0));
+	kopf.scale(glm::vec3(0.35, 0.2, 0.3));
 
 	/***
 	 *Parent Transformation für die Armen
