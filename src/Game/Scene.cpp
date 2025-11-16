@@ -217,16 +217,17 @@ void Scene::transform()
 	 *Translation zur Ursprung
 	*/
 	auto rumpfPosition= glm::vec3(0.0f, 0.0f, 0.0f);
-	robotGruppe = Transform();
-	robotGruppe.translate(rumpfPosition); // Ursprung
+	//robotGruppe = Transform();
+	//robotGruppe.translate(rumpfPosition); // Ursprung
 
 	/***
 	 *Rumpf Transformation
 	 *Skalierung vom Rumpf
 	*/
 	rumpf = Transform();
-	rumpf.scale(glm::vec3(0.5f, 0.8f, 0.4f));
-	rumpf.rotate(glm::vec3(0.1f , glm::radians(60.0f)   , 0.0f));
+	rumpf.translate(rumpfPosition);
+	rumpf.scale(glm::vec3(0.3, 0.7, 0.3));
+	//rumpf.rotate(glm::vec3(0.1f , glm::radians(60.0f)   , 0.0f));
 
 	/***
 	 *Kopf Transformation
