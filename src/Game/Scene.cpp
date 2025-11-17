@@ -33,6 +33,9 @@ bool Scene::init()
 
 		transform();
 
+		//lightCube.translate(lightPos);
+		lightCube.scale(glm::vec3(0.2f)); // small cube
+
 		//a.)VBO erzeugen, activate  and upload data
 		//ID erzeugen
 		glGenBuffers(1, &vboID);
@@ -115,16 +118,43 @@ void Scene::render(float dt)
 	float aspectRatio = windowWidth / windowHeight;
 
 	//45 Grad normaler Kamera und kleinerer Wert = Zoom
-	projectionMatrix = glm::perspective(glm::radians(45.0f), aspectRatio, 0.1f, 100.0f);
+	projectionMatrix = glm::perspective(glm::radians(80.0f), aspectRatio, 0.1f, 100.0f);
 	m_shader->setUniform("projection", projectionMatrix, false);
+
+	//Lichtposition animieren
+
+	float t = glfwGetTime();
+	glm::vec3 lightPosAnim = glm::vec3(1.5f * sin(t), 1.5f, 1.5f * cos(t));
+	m_shader->setUniform("lightPos", lightPosAnim);
+	lightCube.setPosition(lightPosAnim);
+
+	m_shader->setUniform("lightPos", lightCube.getPosition());
+	m_shader->setUniform("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
+
+	//m_shader->setUniform("objectColor", glm::vec3(0.8f, 0.2f, 0.2f)); // robot color
+
+
 
 
 	//a. VAO Binden.
 	glBindVertexArray( vaoID);
 
+	//draw lightcube
+	m_shader->setUniform("isLightSource", true);
+	//m_shader->setUniform("lightColor", glm::vec3(1.0f, 1.0f, 1.0f)); // white
+	glm::mat4 lightModel = lightCube.getMatrix();
+
+	m_shader->setUniform("model", lightModel, false);
+	glDrawArrays(GL_TRIANGLES, 0, 36);
+
+	// Draw robot
+	m_shader->setUniform("isLightSource", false);
+
+
+
 	//continuous rotation
 	//Rotation um 45 Grad Y-Achse und 30 Graf auf X-Achse
-	rumpf.rotate(glm::vec3(glm::radians(0.0f) * dt, glm::radians(23.0f) * dt, glm::radians(0.0f) * dt));
+	//rumpf.rotate(glm::vec3(glm::radians(0.0f) * dt, glm::radians(23.0f) * dt, glm::radians(0.0f) * dt));
 
 	/***
 	 **Körperteile rendern
@@ -149,6 +179,8 @@ void Scene::render(float dt)
 
 
 
+
+
 	//c. Optionales Lösen der Bindung, um versehentliche Änderungen am VAO zu vermeiden
 	glBindVertexArray(0);
 
@@ -165,6 +197,14 @@ void Scene::update(float dt)
 	rechteObererArm.setRotation(glm::vec3(swingAngle/6,0.0 ,0.0 ));
 	linkesBein.setRotation(glm::vec3(-swingAngle/2,0.0 ,0.0 ));
 	rechtesBein.setRotation(glm::vec3(swingAngle,0.0 ,0.0 ));
+
+	/*float t = glfwGetTime();
+	lightPos = glm::vec3(
+		2.0f * sin(t),
+		1.5f,
+		2.0f * cos(t)
+	);
+*/
 }
 
 OpenGLWindow * Scene::getWindow()

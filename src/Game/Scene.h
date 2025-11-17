@@ -45,7 +45,7 @@ private:
 
 	//Kamera
 	glm::mat4 viewMatrix;
-	glm::vec3 kameraPosition = glm::vec3(0.0f, 0.0, 2.0); // Kamera im Ursprung
+	glm::vec3 kameraPosition = glm::vec3(0.0f, 0.0, 3.0); // Kamera im Ursprung
 
 	/*in Normalized Device Space (NDC), Die Kamera schaut entlang der negativen Z-Achse
 	 *
@@ -60,7 +60,9 @@ private:
 
 	//Light variables
 	glm::vec3 lightPos = glm::vec3(1.5f, 1.0f, 2.0f);
-	glm::vec3 lightColor = glm::vec3(1.0f, 1.0f, 1.0f);
+	glm::vec3 lightColor = glm::vec3(1.0f, 1.0f, 1.0f); //weiß
+
+	Transform lightCube;
 
 
 };
