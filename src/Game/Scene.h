@@ -35,7 +35,7 @@ private:
     GLuint vaoID, vboID, iboID;
 
 	glm::mat4 viewMatrix;
-	glm::vec3 kameraPosition = glm::vec3(0.0f, 0.0, 0.0); // Kamera im Ursprung
+	glm::vec3 kameraPosition = glm::vec3(0.0f, 0.0, 2.0); // Kamera im Ursprung
 
 	/*in Normalized Device Space (NDC), Die Kamera schaut entlang der negativen Z-Achse
 	 *
