@@ -34,6 +34,16 @@ private:
     ShaderProgram* m_shader;
     GLuint vaoID, vboID, iboID;
 
+
+	float m_time = 0.0f;
+
+	Transform robotGruppe,rumpf, kopf,
+		armGruppe,
+		linkeArmGruppe, linkeObererArm, linkeUntererArm,
+		rechteArmGruppe, rechteObererArm,  rechteUntererArm,
+		beinGruppe, linkesBein, rechtesBein;
+
+	//Kamera
 	glm::mat4 viewMatrix;
 	glm::vec3 kameraPosition = glm::vec3(0.0f, 0.0, 2.0); // Kamera im Ursprung
 
@@ -47,13 +57,11 @@ private:
 
 	glm::mat4 projectionMatrix;
 
-	float m_time = 0.0f;
 
-	Transform robotGruppe,rumpf, kopf,
-		armGruppe,
-		linkeArmGruppe, linkeObererArm, linkeUntererArm,
-		rechteArmGruppe, rechteObererArm,  rechteUntererArm,
-		beinGruppe, linkesBein, rechtesBein;
+	//Light variables
+	glm::vec3 lightPos = glm::vec3(1.5f, 1.0f, 2.0f);
+	glm::vec3 lightColor = glm::vec3(1.0f, 1.0f, 1.0f);
+
 
 };
 
