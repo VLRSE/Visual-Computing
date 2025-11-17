@@ -1,5 +1,6 @@
 #include "Scene.h"
 #include <AssetManager.h>
+#include "CubeWithNormals.h"
 
 Scene::Scene(OpenGLWindow * window) :
 	m_window(window)
@@ -39,7 +40,7 @@ bool Scene::init()
 		//GL_ARRAY_BUFFER - mit den eigentlichen Geometrie-Daten
 		glBindBuffer(GL_ARRAY_BUFFER, vboID);
 		//Hochladen der Daten auf die GPU
-		glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVert), &cubeVert, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertWithNormals), &cubeVertWithNormals, GL_STATIC_DRAW);
 
 		//b.) VAO erzeugen and binden/aktivieren
 		//Für jedes zu rendernde Obkjekt wird ein VAO erzeugt
@@ -52,18 +53,21 @@ bool Scene::init()
 		//STRIDE: Abstand zwischen Vertices
 
 		//Configure the Vertex Attribute so that OpenGL know how to read the VBO
+		//Vertex Positions
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
 		glEnableVertexAttribArray(0);
+
+		//Colors
 		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
 		glEnableVertexAttribArray(1);
 
 		//d.)Indexbuffers erstellen und binden.
-
+/*
 		glGenBuffers(1, &iboID);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboID);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(cubeInd), cubeInd, GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(cubeVertWithNormals), cubeVertWithNormals, GL_STATIC_DRAW);
 
-
+*/
 		glEnable(GL_CULL_FACE);
 		glFrontFace(GL_CCW);
 		glCullFace(GL_BACK);
@@ -246,7 +250,7 @@ void Scene::transformBodyPart(Transform &transform, glm::mat4 baseMatrix) {
 
 	//Schick model matrix zum aktiven shader
 	m_shader->setUniform("model", modelMatrix,false);
-	glDrawElements(GL_TRIANGLES, sizeof(cubeInd)/sizeof(float), GL_UNSIGNED_INT, 0);
+	glDrawArrays(GL_TRIANGLES, 0, 36);
 
 
 }
