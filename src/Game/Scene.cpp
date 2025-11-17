@@ -105,6 +105,10 @@ void Scene::render(float dt)
 	auto windowHeight = static_cast<float>(getWindow()->getWindowHeight());
 	float aspectRatio = windowWidth / windowHeight;
 
+	//45 Grad normaler Kamera und kleinerer Wert = Zoom
+	projectionMatrix = glm::perspective(glm::radians(45.0f), aspectRatio, 0.1f, 100.0f);
+	m_shader->setUniform("projection", projectionMatrix, false);
+
 
 	//a. VAO Binden.
 	glBindVertexArray( vaoID);
@@ -151,8 +155,7 @@ void Scene::render(float dt)
 
 void Scene::update(float dt)
 {
-	viewMatrix = glm::lookAt(kameraPosition, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	m_shader->setUniform("view", viewMatrix, false);
+
 }
 
 OpenGLWindow * Scene::getWindow()
