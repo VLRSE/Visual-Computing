@@ -54,12 +54,17 @@ bool Scene::init()
 
 		//Configure the Vertex Attribute so that OpenGL know how to read the VBO
 		//Vertex Positions
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void*)0);
 		glEnableVertexAttribArray(0);
 
-		//Colors
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+		//Normal
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void *) (3 * sizeof(float)));
 		glEnableVertexAttribArray(1);
+
+
+		//Colors
+		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 9 * sizeof(float), (void *) (3 * sizeof(float)));
+		glEnableVertexAttribArray(2);
 
 		//d.)Indexbuffers erstellen und binden.
 /*
@@ -142,14 +147,7 @@ void Scene::render(float dt)
 	transformBodyPart(rechtesBein , rumpf.getMatrix());
 
 
-	//Bewegung
-	auto swingAngle = float(glm::radians(30.0f) * glm::sin(5.0f * glfwGetTime()*0.75));
-	linkeUntererArm.setRotation(glm::vec3(swingAngle/2,0.0 ,0.0 ));
-	linkeObererArm.setRotation(glm::vec3(-swingAngle/6,0.0 ,0.0 ));
-	rechteUntererArm.setRotation(glm::vec3(-swingAngle/2,0.0 ,0.0 ));
-	rechteObererArm.setRotation(glm::vec3(swingAngle/6,0.0 ,0.0 ));
-	linkesBein.setRotation(glm::vec3(-swingAngle/2,0.0 ,0.0 ));
-	rechtesBein.setRotation(glm::vec3(swingAngle,0.0 ,0.0 ));
+
 
 	//c. Optionales Lösen der Bindung, um versehentliche Änderungen am VAO zu vermeiden
 	glBindVertexArray(0);
@@ -159,7 +157,14 @@ void Scene::render(float dt)
 
 void Scene::update(float dt)
 {
-
+	//Bewegung
+	auto swingAngle = float(glm::radians(30.0f) * glm::sin(5.0f * glfwGetTime()*0.75));
+	linkeUntererArm.setRotation(glm::vec3(swingAngle/2,0.0 ,0.0 ));
+	linkeObererArm.setRotation(glm::vec3(-swingAngle/6,0.0 ,0.0 ));
+	rechteUntererArm.setRotation(glm::vec3(-swingAngle/2,0.0 ,0.0 ));
+	rechteObererArm.setRotation(glm::vec3(swingAngle/6,0.0 ,0.0 ));
+	linkesBein.setRotation(glm::vec3(-swingAngle/2,0.0 ,0.0 ));
+	rechtesBein.setRotation(glm::vec3(swingAngle,0.0 ,0.0 ));
 }
 
 OpenGLWindow * Scene::getWindow()
