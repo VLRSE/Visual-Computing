@@ -5,7 +5,7 @@
 #include <memory>
 #include <AssetManager.h>
 #include "Transform.h"
-#include "Cube.h"
+#include "CubeWithNormals.h"
 
 class Scene
 {
